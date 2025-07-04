@@ -1,0 +1,15 @@
+# Visual Studio 기본
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# 기타
+*.log
