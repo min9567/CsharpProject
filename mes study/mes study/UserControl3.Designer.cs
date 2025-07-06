@@ -34,6 +34,8 @@
             label3 = new Label();
             textBox2 = new TextBox();
             button1 = new Button();
+            label4 = new Label();
+            textBox3 = new TextBox();
             SuspendLayout();
             // 
             // label1
@@ -87,15 +89,35 @@
             button1.Location = new Point(344, 309);
             button1.Name = "button1";
             button1.Size = new Size(81, 37);
-            button1.TabIndex = 7;
+            button1.TabIndex = 9;
             button1.Text = "등록";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("맑은 고딕", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            label4.Location = new Point(24, 178);
+            label4.Name = "label4";
+            label4.Size = new Size(34, 17);
+            label4.TabIndex = 7;
+            label4.Text = "비고";
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(64, 178);
+            textBox3.Multiline = true;
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(239, 124);
+            textBox3.TabIndex = 8;
             // 
             // UserControl3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(textBox3);
+            Controls.Add(label4);
             Controls.Add(button1);
             Controls.Add(textBox2);
             Controls.Add(label3);
@@ -116,5 +138,7 @@
         private Label label3;
         private TextBox textBox2;
         private Button button1;
+        private Label label4;
+        private TextBox textBox3;
     }
 }

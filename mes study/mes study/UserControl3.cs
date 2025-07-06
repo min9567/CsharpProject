@@ -20,6 +20,7 @@ namespace mes_study
         {
             InitializeComponent();
             this.Load += UserControl3_Load; // 로드시 데이터 불러옴
+            textBox2.KeyPress += textBox2_KeyPress;
         }
 
         private async void UserControl3_Load(object sender, EventArgs e)
@@ -68,6 +69,8 @@ namespace mes_study
         {
             // 1. ComboBox에서 선택한 name
             var name = comboBox1.SelectedItem?.ToString();
+            
+
             if (string.IsNullOrEmpty(name))
             {
                 MessageBox.Show("품목을 선택하세요.");
@@ -109,11 +112,12 @@ namespace mes_study
 
             var material = list[0];
             int newQty = material.qty + addQty;
+            string memo = textBox3.Text.Trim();
 
             // 4. qty 업데이트 (PATCH)
             var patch = new[]
             {
-        new { qty = newQty }
+        new { qty = newQty, receivingmemo = memo }
     };
             var content = new StringContent(JsonConvert.SerializeObject(patch), Encoding.UTF8, "application/json");
             // Patch 사용시 반드시 'Prefer: return=representation' 헤더 필요
@@ -126,6 +130,7 @@ namespace mes_study
             {
                 MessageBox.Show($"수량이 {material.qty} → {newQty}로 변경되었습니다.");
                 textBox2.Text = "";
+                textBox3.Text = "";
                 comboBox1.SelectedIndex = -1;
                 success?.Invoke(this, EventArgs.Empty);
             }
