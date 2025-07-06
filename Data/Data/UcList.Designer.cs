@@ -28,19 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
             label2 = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            listView1 = new ListView();
+            순번 = new ColumnHeader();
+            품명 = new ColumnHeader();
+            수량 = new ColumnHeader();
+            단위 = new ColumnHeader();
             SuspendLayout();
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(30, 51);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(500, 351);
-            dataGridView1.TabIndex = 1;
-            dataGridView1.RowPostPaint += dataGridView1_RowPostPaint;
             // 
             // label2
             // 
@@ -52,21 +46,55 @@
             label2.TabIndex = 2;
             label2.Text = "자재 목록";
             // 
+            // listView1
+            // 
+            listView1.Columns.AddRange(new ColumnHeader[] { 순번, 품명, 수량, 단위 });
+            listView1.Location = new Point(38, 61);
+            listView1.Name = "listView1";
+            listView1.Size = new Size(474, 328);
+            listView1.TabIndex = 3;
+            listView1.UseCompatibleStateImageBehavior = false;
+            listView1.View = View.Details;
+            // 
+            // 순번
+            // 
+            순번.Text = "순번";
+            // 
+            // 품명
+            // 
+            품명.Text = "품명";
+            품명.TextAlign = HorizontalAlignment.Center;
+            품명.Width = 200;
+            // 
+            // 수량
+            // 
+            수량.Text = "수량";
+            수량.TextAlign = HorizontalAlignment.Center;
+            수량.Width = 70;
+            // 
+            // 단위
+            // 
+            단위.Text = "단위";
+            단위.TextAlign = HorizontalAlignment.Center;
+            // 
             // UcList
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(listView1);
             Controls.Add(label2);
-            Controls.Add(dataGridView1);
             Name = "UcList";
             Size = new Size(549, 421);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private DataGridView dataGridView1;
         private Label label2;
+        private ListView listView1;
+        private ColumnHeader 순번;
+        private ColumnHeader 품명;
+        private ColumnHeader 수량;
+        private ColumnHeader 단위;
     }
 }

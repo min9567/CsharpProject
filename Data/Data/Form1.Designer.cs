@@ -147,13 +147,13 @@
             // 장비등록ToolStripMenuItem
             // 
             장비등록ToolStripMenuItem.Name = "장비등록ToolStripMenuItem";
-            장비등록ToolStripMenuItem.Size = new Size(143, 24);
+            장비등록ToolStripMenuItem.Size = new Size(180, 24);
             장비등록ToolStripMenuItem.Text = "장비 등록";
             // 
             // 장비내역ToolStripMenuItem
             // 
             장비내역ToolStripMenuItem.Name = "장비내역ToolStripMenuItem";
-            장비내역ToolStripMenuItem.Size = new Size(143, 24);
+            장비내역ToolStripMenuItem.Size = new Size(180, 24);
             장비내역ToolStripMenuItem.Text = "장비 목록";
             // 
             // 차량관리ToolStripMenuItem
@@ -204,7 +204,7 @@
             // 권한설정ToolStripMenuItem1
             // 
             권한설정ToolStripMenuItem1.Name = "권한설정ToolStripMenuItem1";
-            권한설정ToolStripMenuItem1.Size = new Size(138, 24);
+            권한설정ToolStripMenuItem1.Size = new Size(180, 24);
             권한설정ToolStripMenuItem1.Text = "권한설정";
             // 
             // panel1
