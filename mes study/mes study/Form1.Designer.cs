@@ -66,6 +66,7 @@
             출고ToolStripMenuItem.Name = "출고ToolStripMenuItem";
             출고ToolStripMenuItem.Size = new Size(180, 22);
             출고ToolStripMenuItem.Text = "출고";
+            출고ToolStripMenuItem.Click += 출고ToolStripMenuItem_Click;
             // 
             // 내역ToolStripMenuItem
             // 

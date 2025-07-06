@@ -7,6 +7,7 @@ public partial class Form1 : Form
     private UserControl1 uc1;
     private UserControl2 uc2;
     private UserControl3 uc3;
+    private UserControl4 uc4;
 
     public Form1()
     {
@@ -25,6 +26,7 @@ public partial class Form1 : Form
         uc1 = new UserControl1(supabase);
         uc2 = new UserControl2(supabase);
         uc3 = new UserControl3(supabase);
+        uc4 = new UserControl4(supabase);
 
         uc1.button1Clicked += Uc1_button1Clicked;
         uc2.success += async (s, e) =>
@@ -55,6 +57,13 @@ public partial class Form1 : Form
         panel1.Controls.Clear();
         panel1.Controls.Add(uc3);
         uc3.Dock = DockStyle.Fill;
+    }
+
+    private void √‚∞ÌToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc4);
+        uc4.Dock = DockStyle.Fill;
     }
 }
 

@@ -13,5 +13,6 @@ namespace mes_study
         public int qty { get; set; }
         public string memo { get; set; }
         public string receivingmemo { get; set; }
+        public string issuememo { get; set; }
     }
 }
