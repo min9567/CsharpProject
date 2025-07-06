@@ -11,6 +11,7 @@ namespace mes_study
     {
         // supabase 필드 선언
         private Supabase.Client supabase;
+        public event EventHandler success;
 
         // supabase를 생성자에서 받는 방식
         public UserControl2(Supabase.Client supabaseClient)
@@ -52,10 +53,14 @@ namespace mes_study
                 var response = await client.PostAsync("material", content);
 
                 if (response.IsSuccessStatusCode)
+                {
                     MessageBox.Show("등록 완료!");
+                    success?.Invoke(this, EventArgs.Empty);  // 등록 완료 신호 보내기
+                }
                 else
                     MessageBox.Show("오류: " + await response.Content.ReadAsStringAsync());
             }
+
         }
 
     }

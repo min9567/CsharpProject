@@ -29,7 +29,7 @@ namespace mes_study
             await LoadMaterialsAsync();
         }
 
-        private async Task LoadMaterialsAsync()
+        public async Task LoadMaterialsAsync()
         {
             using var client = new HttpClient();
             client.BaseAddress = new Uri("https://qretxetswugkrlqhjwyn.supabase.co/rest/v1/");
@@ -73,9 +73,49 @@ namespace mes_study
             button1Clicked?.Invoke(this, EventArgs.Empty);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
+            if (listView1.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("삭제할 항목을 선택하세요.");
+                return;
+            }
 
+            var result = MessageBox.Show(
+                "정말 삭제하시겠습니까?",
+                "삭제 확인",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Warning);
+
+            if (result != DialogResult.OK) return;
+
+            // 여러 개 선택해도 일괄 삭제 처리
+            foreach (ListViewItem item in listView1.CheckedItems)
+            {
+                string name = item.SubItems[1].Text; // name이 2번째 컬럼(0=빈칸)
+                                                     // 또는 id 컬럼이 있다면 id로 삭제하는 것이 더 안전
+
+                using var client = new HttpClient();
+                client.BaseAddress = new Uri("https://qretxetswugkrlqhjwyn.supabase.co/rest/v1/");
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
+                client.DefaultRequestHeaders.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // name이 unique라면 아래처럼 사용
+                var response = await client.DeleteAsync($"material?name=eq.{name}");
+
+                // id가 있다면 id=eq.{id}로!
+                // var response = await client.DeleteAsync($"material?id=eq.{id}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show($"삭제 실패: {await response.Content.ReadAsStringAsync()}");
+                }
+            }
+
+            // 삭제 후 리스트 새로고침
+            await LoadMaterialsAsync();
         }
     }
 }
