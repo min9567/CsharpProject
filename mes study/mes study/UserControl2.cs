@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using DotNetEnv;
 
 namespace mes_study
 {
@@ -13,11 +14,14 @@ namespace mes_study
         private Supabase.Client supabase;
         public event EventHandler success;
 
+        private string supabaseUrl;
+        private string supabaseKey;
+
         // supabase를 생성자에서 받는 방식
         public UserControl2(Supabase.Client supabaseClient)
         {
             InitializeComponent();
-            this.supabase = supabaseClient;
+            this.supabase = supabase;
         }
 
         // async 붙이기!
@@ -43,12 +47,16 @@ namespace mes_study
 
             string json = JsonConvert.SerializeObject(data);
 
+            var url = Environment.GetEnvironmentVariable("SUPABASE_URL");
+            var key = Environment.GetEnvironmentVariable("SUPABASE_KEY");
+
+
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://qretxetswugkrlqhjwyn.supabase.co/rest/v1/");
+                client.BaseAddress = new Uri($"{url}/rest/v1/");
                 client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
-                client.DefaultRequestHeaders.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
+                    new AuthenticationHeaderValue("Bearer", key);
+                client.DefaultRequestHeaders.Add("apikey", key);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");

@@ -1,4 +1,5 @@
 namespace mes_study;
+using DotNetEnv;
 
 public partial class Form1 : Form
 {
@@ -18,8 +19,10 @@ public partial class Form1 : Form
 
     private async void Form1_Load(object sender, EventArgs e)
     {
-        var supabaseUrl = "https://qretxetswugkrlqhjwyn.supabase.co";
-        var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w";
+        Env.Load(".env.txt");
+
+        var supabaseUrl = Environment.GetEnvironmentVariable("SUPABASE_URL");
+        var supabaseKey = Environment.GetEnvironmentVariable("SUPABASE_KEY");
         supabase = new Supabase.Client(supabaseUrl, supabaseKey);
         await supabase.InitializeAsync();
 
@@ -29,15 +32,17 @@ public partial class Form1 : Form
         uc4 = new UserControl4(supabase);
 
         uc1.button1Clicked += Uc1_button1Clicked;
-        uc2.success += async (s, e) =>
-        {
-            // uc1이 UserControl1 인스턴스일 때,
-            await uc1.LoadMaterialsAsync(); // public async Task LoadMaterialsAsync()
-            panel1.Controls.Clear();
-            panel1.Controls.Add(uc1);
-            uc1.Dock = DockStyle.Fill;
-        };
+        uc2.success += RefreshUc1;
+        uc3.success += RefreshUc1;
+        uc4.success += RefreshUc1;
     }
+
+    private async void RefreshUc1(object sender, EventArgs e)
+    {
+        await uc1.LoadMaterialsAsync();
+        uc1.Dock = DockStyle.Fill;
+    }
+
     private void Uc1_button1Clicked(object sender, EventArgs e)
     {
         panel1.Controls.Clear();

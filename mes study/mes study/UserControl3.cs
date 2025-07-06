@@ -10,17 +10,25 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using DotNetEnv;
 
 namespace mes_study
 {
     public partial class UserControl3 : UserControl
     {
         public event EventHandler success;
+
+        private string supabaseUrl;
+        private string supabaseKey;
+
         public UserControl3(Supabase.Client supabase)
         {
             InitializeComponent();
             this.Load += UserControl3_Load; // 로드시 데이터 불러옴
             textBox2.KeyPress += textBox2_KeyPress;
+
+            supabaseUrl = Environment.GetEnvironmentVariable("SUPABASE_URL");
+            supabaseKey = Environment.GetEnvironmentVariable("SUPABASE_KEY");
         }
 
         private async void UserControl3_Load(object sender, EventArgs e)
@@ -31,10 +39,10 @@ namespace mes_study
         private async Task LoadMaterialNamesAsync()
         {
             using var client = new HttpClient();
-            client.BaseAddress = new Uri("https://qretxetswugkrlqhjwyn.supabase.co/rest/v1/");
+            client.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
             client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
-            client.DefaultRequestHeaders.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
+                new AuthenticationHeaderValue("Bearer", supabaseKey);
+            client.DefaultRequestHeaders.Add("apikey", supabaseKey);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             var response = await client.GetAsync("material?select=name");

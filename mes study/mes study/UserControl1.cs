@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DotNetEnv;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,11 +17,19 @@ namespace mes_study
     public partial class UserControl1 : UserControl
     {
         private Supabase.Client supabase;
+        private string supabaseUrl;
+        private string supabaseKey;
 
         public event EventHandler button1Clicked;
         public UserControl1(Supabase.Client supabase)
         {
             InitializeComponent();
+            this.supabase = supabase;
+
+            // .env 로드 후 환경변수 읽기
+            supabaseUrl = Environment.GetEnvironmentVariable("SUPABASE_URL");
+            supabaseKey = Environment.GetEnvironmentVariable("SUPABASE_KEY");
+
             this.Load += UserControl1_Load;
             button2.Visible = false;
         }
@@ -32,10 +42,10 @@ namespace mes_study
         public async Task LoadMaterialsAsync()
         {
             using var client = new HttpClient();
-            client.BaseAddress = new Uri("https://qretxetswugkrlqhjwyn.supabase.co/rest/v1/");
+            client.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
             client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
-            client.DefaultRequestHeaders.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
+                new AuthenticationHeaderValue("Bearer", supabaseKey);
+            client.DefaultRequestHeaders.Add("apikey", supabaseKey);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             var response = await client.GetAsync("material?select=*");
@@ -97,10 +107,10 @@ namespace mes_study
                                                      // 또는 id 컬럼이 있다면 id로 삭제하는 것이 더 안전
 
                 using var client = new HttpClient();
-                client.BaseAddress = new Uri("https://qretxetswugkrlqhjwyn.supabase.co/rest/v1/");
+                client.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
                 client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
-                client.DefaultRequestHeaders.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
+                    new AuthenticationHeaderValue("Bearer", supabaseKey);
+                client.DefaultRequestHeaders.Add("apikey", supabaseKey);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // name이 unique라면 아래처럼 사용
