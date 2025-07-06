@@ -6,12 +6,13 @@ public partial class Form1 : Form
     private Supabase.Client supabase;
     private UserControl1 uc1;
     private UserControl2 uc2;
+    private UserControl3 uc3;
 
     public Form1()
     {
         InitializeComponent();
         this.Load += Form1_Load; // Load 이벤트 연결 (디자이너에서 이미 연결되어 있으면 생략 가능)
-        
+
     }
 
     private async void Form1_Load(object sender, EventArgs e)
@@ -23,6 +24,8 @@ public partial class Form1 : Form
 
         uc1 = new UserControl1(supabase);
         uc2 = new UserControl2(supabase);
+        uc3 = new UserControl3(supabase);
+
         uc1.button1Clicked += Uc1_button1Clicked;
         uc2.success += async (s, e) =>
         {
@@ -45,6 +48,13 @@ public partial class Form1 : Form
         panel1.Controls.Clear();
         panel1.Controls.Add(uc1);  // uc1이 UserControl1
         uc1.Dock = DockStyle.Fill;
+    }
+
+    private void 입고ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc3);
+        uc3.Dock = DockStyle.Fill;
     }
 }
 

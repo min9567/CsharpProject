@@ -57,19 +57,20 @@
             // 입고ToolStripMenuItem
             // 
             입고ToolStripMenuItem.Name = "입고ToolStripMenuItem";
-            입고ToolStripMenuItem.Size = new Size(98, 22);
+            입고ToolStripMenuItem.Size = new Size(180, 22);
             입고ToolStripMenuItem.Text = "입고";
+            입고ToolStripMenuItem.Click += 입고ToolStripMenuItem_Click;
             // 
             // 출고ToolStripMenuItem
             // 
             출고ToolStripMenuItem.Name = "출고ToolStripMenuItem";
-            출고ToolStripMenuItem.Size = new Size(98, 22);
+            출고ToolStripMenuItem.Size = new Size(180, 22);
             출고ToolStripMenuItem.Text = "출고";
             // 
             // 내역ToolStripMenuItem
             // 
             내역ToolStripMenuItem.Name = "내역ToolStripMenuItem";
-            내역ToolStripMenuItem.Size = new Size(98, 22);
+            내역ToolStripMenuItem.Size = new Size(180, 22);
             내역ToolStripMenuItem.Text = "내역";
             내역ToolStripMenuItem.Click += 내역ToolStripMenuItem_Click;
             // 
