@@ -35,6 +35,7 @@
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             columnHeader3 = new ColumnHeader();
+            columnHeader4 = new ColumnHeader();
             button2 = new Button();
             SuspendLayout();
             // 
@@ -61,7 +62,7 @@
             // listView1
             // 
             listView1.CheckBoxes = true;
-            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader0, columnHeader1, columnHeader2, columnHeader3 });
+            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader0, columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
             listView1.Location = new Point(29, 58);
             listView1.Name = "listView1";
             listView1.Size = new Size(401, 316);
@@ -90,6 +91,12 @@
             // 
             columnHeader3.Text = "단위";
             columnHeader3.TextAlign = HorizontalAlignment.Center;
+            // 
+            // columnHeader4
+            // 
+            columnHeader4.Text = "비고";
+            columnHeader4.TextAlign = HorizontalAlignment.Center;
+            columnHeader4.Width = 102;
             // 
             // button2
             // 
@@ -125,5 +132,6 @@
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
         private Button button2;
+        private ColumnHeader columnHeader4;
     }
 }

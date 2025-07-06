@@ -11,5 +11,6 @@ namespace mes_study
         public string name { get; set; }
         public string unit { get; set; }
         public int qty { get; set; }
+        public string memo { get; set; }
     }
 }

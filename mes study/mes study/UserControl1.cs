@@ -53,6 +53,7 @@ namespace mes_study
                     item.SubItems.Add(m.name);
                     item.SubItems.Add(m.qty.ToString());
                     item.SubItems.Add(m.unit);
+                    item.SubItems.Add(m.memo);
                     listView1.Items.Add(item);
                 }
             }

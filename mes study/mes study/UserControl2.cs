@@ -25,6 +25,7 @@ namespace mes_study
         {
             string name = textBox1.Text.Trim();
             string unit = textBox2.Text.Trim();
+            string memo = textBox3.Text.Trim();
 
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(unit))
             {
@@ -36,7 +37,8 @@ namespace mes_study
             {
                 name = name,
                 unit = unit,
-                qty = 0
+                qty = 0,
+                memo = memo
             };
 
             string json = JsonConvert.SerializeObject(data);
