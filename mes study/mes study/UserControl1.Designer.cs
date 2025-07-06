@@ -35,6 +35,7 @@
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             columnHeader3 = new ColumnHeader();
+            button2 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -59,6 +60,7 @@
             // 
             // listView1
             // 
+            listView1.CheckBoxes = true;
             listView1.Columns.AddRange(new ColumnHeader[] { columnHeader0, columnHeader1, columnHeader2, columnHeader3 });
             listView1.Location = new Point(29, 58);
             listView1.Name = "listView1";
@@ -66,11 +68,12 @@
             listView1.TabIndex = 2;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
+            listView1.ItemChecked += listView1_ItemChecked;
             // 
             // columnHeader0
             // 
             columnHeader0.Text = "";
-            columnHeader0.Width = 40;
+            columnHeader0.Width = 25;
             // 
             // columnHeader1
             // 
@@ -88,10 +91,21 @@
             columnHeader3.Text = "단위";
             columnHeader3.TextAlign = HorizontalAlignment.Center;
             // 
+            // button2
+            // 
+            button2.Location = new Point(275, 12);
+            button2.Name = "button2";
+            button2.Size = new Size(76, 28);
+            button2.TabIndex = 3;
+            button2.Text = "삭제";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // UserControl1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(button2);
             Controls.Add(listView1);
             Controls.Add(button1);
             Controls.Add(label1);
@@ -110,5 +124,6 @@
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
+        private Button button2;
     }
 }
