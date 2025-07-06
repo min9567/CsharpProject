@@ -19,7 +19,7 @@ namespace mes_study
             this.supabase = supabaseClient;
         }
 
-        // async 붙이 기!
+        // async 붙이기!
         private async void button1_Click(object sender, EventArgs e)
         {
             string name = textBox1.Text.Trim();
