@@ -21,6 +21,7 @@ namespace mes_study
         private string supabaseKey;
 
         public event EventHandler button1Clicked;
+        public event EventHandler button3Clicked;
         public UserControl1(Supabase.Client supabase)
         {
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace mes_study
 
             this.Load += UserControl1_Load;
             button2.Visible = false;
+            button3.Visible = false;
         }
 
         private async void UserControl1_Load(object sender, EventArgs e)
@@ -64,6 +66,7 @@ namespace mes_study
                     item.SubItems.Add(m.qty.ToString());
                     item.SubItems.Add(m.unit);
                     item.SubItems.Add(m.memo);
+                    item.SubItems.Add(m.uuid);
                     listView1.Items.Add(item);
                 }
             }
@@ -77,6 +80,7 @@ namespace mes_study
         {
             // 하나라도 체크된 게 있으면 보이게, 아니면 숨기게
             button2.Visible = listView1.CheckedItems.Count > 0;
+            button3.Visible = listView1.CheckedItems.Count > 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -128,5 +132,26 @@ namespace mes_study
             // 삭제 후 리스트 새로고침
             await LoadMaterialsAsync();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (listView1.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("상세보기할 항목을 선택하세요.");
+                return;
+            }
+            if (listView1.CheckedItems.Count > 1)
+            {
+                MessageBox.Show("상세보기는 한 개만 선택할 수 있습니다.");
+                return;
+            }
+
+            // 🔴 checkedUuid 추출 추가!!
+            var checkedItem = listView1.CheckedItems[0];
+            string checkedUuid = checkedItem.SubItems[5].Text; // 5번째: uuid 컬럼 인덱스
+
+            button3Clicked?.Invoke(checkedUuid, EventArgs.Empty);
+        }
     }
+    
 }

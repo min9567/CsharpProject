@@ -52,7 +52,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("맑은 고딕", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            label2.Location = new Point(24, 91);
+            label2.Location = new Point(29, 91);
             label2.Name = "label2";
             label2.Size = new Size(34, 17);
             label2.TabIndex = 1;
@@ -62,7 +62,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("맑은 고딕", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            label3.Location = new Point(24, 136);
+            label3.Location = new Point(29, 136);
             label3.Name = "label3";
             label3.Size = new Size(34, 17);
             label3.TabIndex = 2;
@@ -70,8 +70,9 @@
             // 
             // button1
             // 
+            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button1.Font = new Font("맑은 고딕", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            button1.Location = new Point(344, 309);
+            button1.Location = new Point(606, 334);
             button1.Name = "button1";
             button1.Size = new Size(81, 37);
             button1.TabIndex = 3;
@@ -81,14 +82,14 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(64, 89);
+            textBox1.Location = new Point(69, 89);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(142, 23);
             textBox1.TabIndex = 4;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(64, 134);
+            textBox2.Location = new Point(69, 134);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(142, 23);
             textBox2.TabIndex = 5;
@@ -97,7 +98,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("맑은 고딕", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            label4.Location = new Point(24, 178);
+            label4.Location = new Point(29, 178);
             label4.Name = "label4";
             label4.Size = new Size(34, 17);
             label4.TabIndex = 6;
@@ -105,10 +106,10 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(64, 178);
+            textBox3.Location = new Point(69, 178);
             textBox3.Multiline = true;
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(239, 124);
+            textBox3.Size = new Size(435, 124);
             textBox3.TabIndex = 7;
             // 
             // UserControl2
@@ -124,7 +125,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "UserControl2";
-            Size = new Size(453, 373);
+            Size = new Size(706, 389);
             ResumeLayout(false);
             PerformLayout();
         }

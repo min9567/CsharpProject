@@ -22,6 +22,17 @@ namespace mes_study
         private string supabaseUrl;
         private string supabaseKey;
 
+        public void ClearInputs()
+        {
+            comboBox1.SelectedIndex = -1;
+            textBox2.Text = "";
+            textBox3.Text = "";
+        }
+        public void FocusToComboBox()
+        {
+            comboBox1.Focus();
+        }
+
         public UserControl4(Supabase.Client supabase)
         {
             InitializeComponent();
@@ -37,7 +48,7 @@ namespace mes_study
             await LoadMaterialNamesAsync();
         }
 
-        private async Task LoadMaterialNamesAsync()
+        public async Task LoadMaterialNamesAsync()
         {
             using var client = new HttpClient();
             client.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
@@ -148,6 +159,11 @@ namespace mes_study
             {
                 MessageBox.Show("수량 변경 실패: " + await updateResponse.Content.ReadAsStringAsync());
             }
+        }
+
+        private void UserControl4_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

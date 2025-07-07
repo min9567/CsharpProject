@@ -36,6 +36,8 @@
             button1 = new Button();
             label4 = new Label();
             textBox3 = new TextBox();
+            label5 = new Label();
+            comboBox2 = new ComboBox();
             SuspendLayout();
             // 
             // label1
@@ -52,7 +54,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("맑은 고딕", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            label2.Location = new Point(24, 91);
+            label2.Location = new Point(29, 91);
             label2.Name = "label2";
             label2.Size = new Size(34, 17);
             label2.TabIndex = 2;
@@ -61,7 +63,7 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(64, 89);
+            comboBox1.Location = new Point(69, 89);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(142, 23);
             comboBox1.TabIndex = 3;
@@ -70,7 +72,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("맑은 고딕", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            label3.Location = new Point(24, 136);
+            label3.Location = new Point(29, 136);
             label3.Name = "label3";
             label3.Size = new Size(34, 17);
             label3.TabIndex = 4;
@@ -78,15 +80,16 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(64, 134);
+            textBox2.Location = new Point(69, 134);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(142, 23);
             textBox2.TabIndex = 6;
             // 
             // button1
             // 
+            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button1.Font = new Font("맑은 고딕", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            button1.Location = new Point(344, 309);
+            button1.Location = new Point(606, 334);
             button1.Name = "button1";
             button1.Size = new Size(81, 37);
             button1.TabIndex = 9;
@@ -98,7 +101,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("맑은 고딕", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            label4.Location = new Point(24, 178);
+            label4.Location = new Point(29, 225);
             label4.Name = "label4";
             label4.Size = new Size(34, 17);
             label4.TabIndex = 7;
@@ -106,16 +109,36 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(64, 178);
+            textBox3.Location = new Point(69, 225);
             textBox3.Multiline = true;
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(239, 124);
+            textBox3.Size = new Size(435, 91);
             textBox3.TabIndex = 8;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("맑은 고딕", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            label5.Location = new Point(16, 181);
+            label5.Name = "label5";
+            label5.Size = new Size(47, 17);
+            label5.TabIndex = 10;
+            label5.Text = "등록자";
+            // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(69, 179);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(142, 23);
+            comboBox2.TabIndex = 11;
             // 
             // UserControl3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(comboBox2);
+            Controls.Add(label5);
             Controls.Add(textBox3);
             Controls.Add(label4);
             Controls.Add(button1);
@@ -125,7 +148,8 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "UserControl3";
-            Size = new Size(453, 373);
+            Size = new Size(706, 389);
+            Load += UserControl3_Load_1;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -140,5 +164,7 @@
         private Button button1;
         private Label label4;
         private TextBox textBox3;
+        private Label label5;
+        private ComboBox comboBox2;
     }
 }

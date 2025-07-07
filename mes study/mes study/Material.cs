@@ -14,5 +14,6 @@ namespace mes_study
         public string memo { get; set; }
         public string receivingmemo { get; set; }
         public string issuememo { get; set; }
+        public string uuid { get; set; }
     }
 }

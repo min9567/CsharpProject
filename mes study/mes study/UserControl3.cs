@@ -1,16 +1,17 @@
-﻿using System;
+﻿using DotNetEnv;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using DotNetEnv;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace mes_study
 {
@@ -20,6 +21,17 @@ namespace mes_study
 
         private string supabaseUrl;
         private string supabaseKey;
+
+        public void ClearInputs()
+        {
+            comboBox1.SelectedIndex = -1;
+            textBox2.Text = "";
+            textBox3.Text = "";
+        }
+        public void FocusToComboBox()
+        {
+            comboBox1.Focus();
+        }
 
         public UserControl3(Supabase.Client supabase)
         {
@@ -36,7 +48,7 @@ namespace mes_study
             await LoadMaterialNamesAsync();
         }
 
-        private async Task LoadMaterialNamesAsync()
+        public async Task LoadMaterialNamesAsync()
         {
             using var client = new HttpClient();
             client.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
@@ -77,7 +89,7 @@ namespace mes_study
         {
             // 1. ComboBox에서 선택한 name
             var name = comboBox1.SelectedItem?.ToString();
-            
+
 
             if (string.IsNullOrEmpty(name))
             {
@@ -94,10 +106,10 @@ namespace mes_study
 
             // 3. 기존 qty 조회 (GET)
             using var client = new HttpClient();
-            client.BaseAddress = new Uri("https://qretxetswugkrlqhjwyn.supabase.co/rest/v1/");
+            client.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
             client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
-            client.DefaultRequestHeaders.Add("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyZXR4ZXRzd3Vna3JscWhqd3luIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE2MzI2NTcsImV4cCI6MjA2NzIwODY1N30.EeuiZ1OZHnm1jjpmAOErALdDNPtB4Q18uZo9Lp0da9w");
+                new AuthenticationHeaderValue("Bearer", supabaseKey);
+            client.DefaultRequestHeaders.Add("apikey", supabaseKey);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             // 해당 품목의 qty 조회
@@ -141,12 +153,34 @@ namespace mes_study
                 textBox3.Text = "";
                 comboBox1.SelectedIndex = -1;
                 success?.Invoke(this, EventArgs.Empty);
+                FocusToComboBox();
+
+                var materialListData = new
+                {
+                    uuid = material.uuid,                  // material에서 uuid 컬럼 가져오기 (material 클래스에 uuid 추가 필요)
+                    name = name,                  // 품목명
+                    qty_in = addQty,                       // 입고수량 (추가된 값)
+                    qty_out = 0,                           // 출고시에는 0, 입고이므로
+                    qty_result = newQty,                   // 최종 수량
+                    registrant = "",              // 로그인 사용자 등에서 가져와서 입력
+                    memo = memo                            // 메모
+                };
+                var materialListContent = new StringContent(JsonConvert.SerializeObject(materialListData), Encoding.UTF8, "application/json");
+                // materialList용 POST
+                var listResponse = await client.PostAsync("materiallist", materialListContent);
+                if (!listResponse.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("materialList 저장 실패: " + await listResponse.Content.ReadAsStringAsync());
+                }
             }
             else
             {
                 MessageBox.Show("수량 변경 실패: " + await updateResponse.Content.ReadAsStringAsync());
             }
         }
+        private void UserControl3_Load_1(object sender, EventArgs e)
+        {
 
+        }
     }
 }
