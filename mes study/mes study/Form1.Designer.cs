@@ -88,14 +88,16 @@
             // 직원등록ToolStripMenuItem
             // 
             직원등록ToolStripMenuItem.Name = "직원등록ToolStripMenuItem";
-            직원등록ToolStripMenuItem.Size = new Size(126, 22);
+            직원등록ToolStripMenuItem.Size = new Size(180, 22);
             직원등록ToolStripMenuItem.Text = "직원 등록";
+            직원등록ToolStripMenuItem.Click += 직원등록ToolStripMenuItem_Click;
             // 
             // 직원목록ToolStripMenuItem
             // 
             직원목록ToolStripMenuItem.Name = "직원목록ToolStripMenuItem";
-            직원목록ToolStripMenuItem.Size = new Size(126, 22);
+            직원목록ToolStripMenuItem.Size = new Size(180, 22);
             직원목록ToolStripMenuItem.Text = "직원 목록";
+            직원목록ToolStripMenuItem.Click += 직원목록ToolStripMenuItem_Click;
             // 
             // panel1
             // 

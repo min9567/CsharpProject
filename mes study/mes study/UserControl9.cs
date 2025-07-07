@@ -1,0 +1,156 @@
+﻿using DotNetEnv;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+
+namespace mes_study
+{
+    public partial class UserControl9 : UserControl
+    {
+        private Supabase.Client supabase;
+
+        private string supabaseUrl;
+        private string supabaseKey;
+
+        private string selectedUuid;
+
+        public event EventHandler EditCompleted;
+
+        public void SetUuid(string uuid)
+        {
+            this.selectedUuid = uuid;
+        }
+
+        public void FocusToTextBox()
+        {
+            textBox1.Focus();
+        }
+
+        public void ClearInputs()
+        {
+            comboBox1.SelectedIndex = -1;
+            textBox1.Text = "";
+            textBox2.Text = "";
+            textBox3.Text = "";
+            textBox4.Text = "";
+            textBox5.Text = "";
+            textBox6.Text = "";
+            textBox8.Text = "";
+        }
+
+        public UserControl9(Supabase.Client supabase)
+        {
+            InitializeComponent();
+            this.supabase = supabase;
+
+            // .env 로드 후 환경변수 읽기
+            supabaseUrl = Environment.GetEnvironmentVariable("SUPABASE_URL");
+            supabaseKey = Environment.GetEnvironmentVariable("SUPABASE_KEY");
+
+            label7.Visible = false;
+            textBox7.Visible = false;
+        }
+
+        private async void UserControl9_Load(object sender, EventArgs e)
+        {
+            await LoadEmployeeDataAsync();
+        }
+
+        public async Task LoadEmployeeDataAsync()
+        {
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", supabaseKey);
+            client.DefaultRequestHeaders.Add("apikey", supabaseKey);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // uuid로 1건 조회
+            var response = await client.GetAsync($"employees?user_id=eq.{selectedUuid}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var employees = JsonConvert.DeserializeObject<List<MaterialUser>>(json);
+                if (employees.Count > 0)
+                {
+                    var emp = employees[0];
+                    textBox1.Text = emp.name;
+                    textBox2.Text = emp.birth?.ToString("yyyy-MM-dd") ?? "";
+                    textBox3.Text = emp.phone;
+                    textBox4.Text = emp.email;
+                    textBox4.ReadOnly = true;
+                    textBox5.Text = emp.address;
+                    textBox6.Text = emp.username;
+                    textBox6.ReadOnly = true;
+                    textBox8.Text = emp.memo;
+                }
+                else
+                {
+                    MessageBox.Show("해당 uuid의 직원 정보가 없습니다.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("직원 정보 불러오기 실패: " + await response.Content.ReadAsStringAsync());
+            }
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(selectedUuid))
+            {
+                MessageBox.Show("유효하지 않은 uuid입니다.");
+                return;
+            }
+
+            // 1. employees 정보 수정
+            var empPatch = new[]
+            {
+                new
+                 {
+                    name = textBox1.Text.Trim(),
+                    birth = textBox2.Text.Trim(),
+                    phone = textBox3.Text.Trim(),
+                    email = textBox4.Text.Trim(),
+                    address = textBox5.Text.Trim(),
+                    username = textBox6.Text.Trim(),
+                    memo = textBox8.Text.Trim()
+                }
+            };
+            var empJson = JsonConvert.SerializeObject(empPatch);
+
+            using (var empClient = new HttpClient())
+            {
+                empClient.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
+                empClient.DefaultRequestHeaders.Clear();
+                empClient.DefaultRequestHeaders.Add("apikey", supabaseKey);
+                empClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", supabaseKey);
+                empClient.DefaultRequestHeaders.Remove("Prefer");
+                empClient.DefaultRequestHeaders.Add("Prefer", "return=representation"); // PATCH 필수
+
+                var empContent = new StringContent(empJson, Encoding.UTF8, "application/json");
+                var empResp = await empClient.PatchAsync($"employees?user_id=eq.{selectedUuid}", empContent);
+
+                if (!empResp.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("employees 수정 실패: " + await empResp.Content.ReadAsStringAsync());
+                    return;
+                }
+            }
+            MessageBox.Show("수정 완료!");
+            EditCompleted?.Invoke(this, EventArgs.Empty);
+        }
+    }
+}

@@ -1,6 +1,6 @@
 ﻿namespace mes_study
 {
-    partial class UserControl1
+    partial class UserControl8
     {
         /// <summary> 
         /// 필수 디자이너 변수입니다.
@@ -28,52 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            button1 = new Button();
             listView1 = new ListView();
             columnHeader0 = new ColumnHeader();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             columnHeader3 = new ColumnHeader();
             columnHeader4 = new ColumnHeader();
+            columnHeader5 = new ColumnHeader();
+            columnHeader6 = new ColumnHeader();
+            columnHeader7 = new ColumnHeader();
+            label1 = new Label();
             button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
+            button1 = new Button();
             SuspendLayout();
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("맑은 고딕", 12F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            label1.Location = new Point(23, 14);
-            label1.Name = "label1";
-            label1.Size = new Size(42, 21);
-            label1.TabIndex = 0;
-            label1.Text = "목록";
-            // 
-            // button1
-            // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.Location = new Point(601, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(76, 28);
-            button1.TabIndex = 1;
-            button1.Text = "품목 등록";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
             // 
             // listView1
             // 
             listView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             listView1.CheckBoxes = true;
-            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader0, columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
-            listView1.Location = new Point(29, 58);
+            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader0, columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeader5, columnHeader6, columnHeader7 });
+            listView1.Location = new Point(32, 63);
             listView1.Name = "listView1";
             listView1.Size = new Size(648, 307);
-            listView1.TabIndex = 2;
+            listView1.TabIndex = 6;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
-            listView1.ItemChecked += listView1_ItemChecked;
             // 
             // columnHeader0
             // 
@@ -82,72 +61,86 @@
             // 
             // columnHeader1
             // 
-            columnHeader1.Text = "품명";
+            columnHeader1.Text = "이름";
             columnHeader1.TextAlign = HorizontalAlignment.Center;
-            columnHeader1.Width = 159;
+            columnHeader1.Width = 70;
             // 
             // columnHeader2
             // 
-            columnHeader2.Text = "수량";
+            columnHeader2.Text = "아이디";
             columnHeader2.TextAlign = HorizontalAlignment.Center;
-            columnHeader2.Width = 80;
+            columnHeader2.Width = 90;
             // 
             // columnHeader3
             // 
-            columnHeader3.Text = "단위";
+            columnHeader3.Text = "생년월일";
             columnHeader3.TextAlign = HorizontalAlignment.Center;
             columnHeader3.Width = 80;
             // 
             // columnHeader4
             // 
-            columnHeader4.Text = "비고";
+            columnHeader4.Text = "연락처";
             columnHeader4.TextAlign = HorizontalAlignment.Center;
-            columnHeader4.Width = 300;
+            columnHeader4.Width = 100;
+            // 
+            // columnHeader5
+            // 
+            columnHeader5.Text = "부서";
+            columnHeader5.TextAlign = HorizontalAlignment.Center;
+            columnHeader5.Width = 80;
+            // 
+            // columnHeader6
+            // 
+            columnHeader6.Text = "등록일";
+            columnHeader6.TextAlign = HorizontalAlignment.Center;
+            columnHeader6.Width = 130;
+            // 
+            // columnHeader7
+            // 
+            columnHeader7.Text = "수정";
+            columnHeader7.TextAlign = HorizontalAlignment.Center;
+            columnHeader7.Width = 69;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("맑은 고딕", 12F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            label1.Location = new Point(26, 19);
+            label1.Name = "label1";
+            label1.Size = new Size(80, 21);
+            label1.TabIndex = 5;
+            label1.Text = "직원 목록";
             // 
             // button2
             // 
             button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button2.Location = new Point(355, 12);
+            button2.Location = new Point(522, 17);
             button2.Name = "button2";
             button2.Size = new Size(76, 28);
-            button2.TabIndex = 3;
-            button2.Text = "삭제";
+            button2.TabIndex = 9;
+            button2.Text = "수정";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
-            // button3
+            // button1
             // 
-            button3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button3.Location = new Point(519, 12);
-            button3.Name = "button3";
-            button3.Size = new Size(76, 28);
-            button3.TabIndex = 4;
-            button3.Text = "상세내역";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button1.Location = new Point(604, 17);
+            button1.Name = "button1";
+            button1.Size = new Size(76, 28);
+            button1.TabIndex = 8;
+            button1.Text = "상세보기";
+            button1.UseVisualStyleBackColor = true;
             // 
-            // button4
-            // 
-            button4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button4.Location = new Point(437, 12);
-            button4.Name = "button4";
-            button4.Size = new Size(76, 28);
-            button4.TabIndex = 5;
-            button4.Text = "비고 수정";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
-            // 
-            // UserControl1
+            // UserControl8
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(button4);
-            Controls.Add(button3);
             Controls.Add(button2);
-            Controls.Add(listView1);
             Controls.Add(button1);
+            Controls.Add(listView1);
             Controls.Add(label1);
-            Name = "UserControl1";
+            Name = "UserControl8";
             Size = new Size(706, 389);
             ResumeLayout(false);
             PerformLayout();
@@ -155,16 +148,17 @@
 
         #endregion
 
-        private Label label1;
-        private Button button1;
         private ListView listView1;
         private ColumnHeader columnHeader0;
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
-        private Button button2;
         private ColumnHeader columnHeader4;
-        private Button button3;
-        private Button button4;
+        private ColumnHeader columnHeader5;
+        private ColumnHeader columnHeader6;
+        private ColumnHeader columnHeader7;
+        private Label label1;
+        private Button button2;
+        private Button button1;
     }
 }

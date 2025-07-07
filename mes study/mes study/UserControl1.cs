@@ -22,6 +22,7 @@ namespace mes_study
 
         public event EventHandler button1Clicked;
         public event EventHandler button3Clicked;
+        public event EventHandler button4Clicked;
         public UserControl1(Supabase.Client supabase)
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace mes_study
             this.Load += UserControl1_Load;
             button2.Visible = false;
             button3.Visible = false;
+            button4.Visible = false;
         }
 
         private async void UserControl1_Load(object sender, EventArgs e)
@@ -81,6 +83,7 @@ namespace mes_study
             // 하나라도 체크된 게 있으면 보이게, 아니면 숨기게
             button2.Visible = listView1.CheckedItems.Count > 0;
             button3.Visible = listView1.CheckedItems.Count > 0;
+            button4.Visible = listView1.CheckedItems.Count > 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -152,6 +155,27 @@ namespace mes_study
 
             button3Clicked?.Invoke(checkedUuid, EventArgs.Empty);
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (listView1.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("비고란 수정할 항목을 선택하세요.");
+                return;
+            }
+            if (listView1.CheckedItems.Count > 1)
+            {
+                MessageBox.Show("비고란 수정은 한 개만 선택할 수 있습니다.");
+                return;
+            }
+
+            // checkedUuid 추출
+            var checkedItem = listView1.CheckedItems[0];
+            string checkedUuid = checkedItem.SubItems[5].Text;
+
+            // uuid를 sender 대신 인자로 전달!
+            button4Clicked?.Invoke(checkedUuid, EventArgs.Empty);
+        }
     }
-    
+
 }
