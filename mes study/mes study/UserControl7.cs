@@ -41,6 +41,91 @@ namespace mes_study
         {
             textBox1.Focus();
         }
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 숫자와 백스페이스만 허용
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 숫자와 백스페이스만 허용
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            // 현재 커서 위치 기억
+            int selStart = textBox3.SelectionStart;
+            int oldLength = textBox3.Text.Length;
+
+            // 숫자만 추출
+            string onlyNum = new string(textBox3.Text.Where(char.IsDigit).ToArray());
+            string formatted = onlyNum;
+
+            if (onlyNum.Length <= 3)
+                formatted = onlyNum;
+            else if (onlyNum.Length <= 7)
+                formatted = $"{onlyNum.Substring(0, 3)}-{onlyNum.Substring(3)}";
+            else if (onlyNum.Length <= 10)
+                formatted = $"{onlyNum.Substring(0, 3)}-{onlyNum.Substring(3, 3)}-{onlyNum.Substring(6)}";
+            else if (onlyNum.Length >= 11)
+                formatted = $"{onlyNum.Substring(0, 3)}-{onlyNum.Substring(3, 4)}-{onlyNum.Substring(7, 4)}";
+
+            // 값이 다르면 갱신
+            if (textBox3.Text != formatted)
+            {
+                textBox3.Text = formatted;
+                // 바뀐 텍스트의 길이와 커서 위치 보정
+                int diff = textBox3.Text.Length - oldLength;
+                textBox3.SelectionStart = Math.Max(0, selStart + diff);
+            }
+        }
+
+
+        private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 한글 유니코드 범위만 막기 (특수문자/영문/숫자/기본키는 허용)
+            if (e.KeyChar >= 0x3131 && e.KeyChar <= 0x318E) // 자음, 모음
+                e.Handled = true;
+            else if (e.KeyChar >= 0xAC00 && e.KeyChar <= 0xD7A3) // 완성형 한글
+                e.Handled = true;
+            // 나머지는 허용 (영문, 숫자, 특수문자, 백스페이스 등)
+        }
+
+        private void textBox6_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 영문 대소문자, 숫자, 백스페이스만 허용
+            if (!(char.IsLetterOrDigit(e.KeyChar) || e.KeyChar == '\b'))
+            {
+                e.Handled = true; // 허용하지 않은 문자 입력 차단
+                return;
+            }
+
+            // 한글 유니코드 차단(이전 방식, 참고용)
+            if ((e.KeyChar >= 0x3131 && e.KeyChar <= 0x318E) ||
+                (e.KeyChar >= 0xAC00 && e.KeyChar <= 0xD7A3))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox7_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 한글 유니코드 범위만 막기 (특수문자/영문/숫자/기본키는 허용)
+            if (e.KeyChar >= 0x3131 && e.KeyChar <= 0x318E) // 자음, 모음
+                e.Handled = true;
+            else if (e.KeyChar >= 0xAC00 && e.KeyChar <= 0xD7A3) // 완성형 한글
+                e.Handled = true;
+            // 나머지는 허용 (영문, 숫자, 특수문자, 백스페이스 등)
+        }
+
 
         public UserControl7(Supabase.Client supabase)
         {
@@ -85,68 +170,41 @@ namespace mes_study
                 MessageBox.Show("비밀번호는 6자 이상이어야 합니다.");
                 return;
             }
-            string uuid = "";
-            var signupData = new
-            {
-                email = textBox4.Text,
-                password = textBox7.Text
-            };
-            string signupJson = JsonConvert.SerializeObject(signupData);
-
-            using (var signupClient = new HttpClient())
-            {
-                signupClient.BaseAddress = new Uri($"{supabaseUrl}/auth/v1/");
-                signupClient.DefaultRequestHeaders.Clear();
-                signupClient.DefaultRequestHeaders.Add("apikey", supabaseKey);
-                signupClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                var signupContent = new StringContent(signupJson, Encoding.UTF8, "application/json");
-                var signupResponse = await signupClient.PostAsync("signup", signupContent);
-
-                string responseBody = await signupResponse.Content.ReadAsStringAsync();
-
-                if (!signupResponse.IsSuccessStatusCode)
-                {
-                    dynamic errorJson = JsonConvert.DeserializeObject(responseBody);
-                    string code = errorJson.code;
-
-                    if (code == "429")
-                    {
-                        MessageBox.Show("같은 이메일로 인증이 잦아 추후 다시 시도해주세요.");
-                    }
-                    else if (code == "22008")
-                    {
-                        MessageBox.Show("생년월일 날짜 형식이 올바르지 않습니다.");
-                    }
-                    else
-                    {
-                        MessageBox.Show("회원가입 실패: " + responseBody);
-                    }
-                    return;
-                }
-
-                var signupResult = JsonConvert.DeserializeObject<dynamic>(responseBody);
-                uuid = signupResult.id; // auth.users의 id (uuid)
-                                        // uuid가 제대로 파싱되는지 반드시 체크
-                if (string.IsNullOrWhiteSpace(uuid))
-                {
-                    MessageBox.Show("auth.users id 값을 찾을 수 없습니다.");
-                    return;
-                }
-            }
-
+            
             // employees 테이블에 저장할 데이터
             var empData = new
             {
-                user_id = uuid,
                 name = textBox1.Text,
                 birth = textBox2.Text,
                 phone = textBox3.Text,
                 email = textBox4.Text,
                 address = textBox5.Text,
                 username = textBox6.Text,
+                password = textBox7.Text,
                 memo = textBox8.Text
             };
+
+            // username 중복 체크
+            using (var checkClient = new HttpClient())
+            {
+                checkClient.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
+                checkClient.DefaultRequestHeaders.Clear();
+                checkClient.DefaultRequestHeaders.Add("apikey", supabaseKey);
+                checkClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", supabaseKey);
+
+                // employees?username=eq.{username} 쿼리로 중복 확인
+                string url = $"employees?username=eq.{username}";
+                var checkResponse = await checkClient.GetAsync(url);
+                var checkResult = await checkResponse.Content.ReadAsStringAsync();
+
+                // 결과가 []이면 중복 아님, [{...}]이면 중복
+                if (checkResult.Trim() != "[]")
+                {
+                    MessageBox.Show("중복된 아이디입니다.", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
 
             // 직원 정보 등록 요청 (employees)
             using (var empClient = new HttpClient())

@@ -15,10 +15,14 @@ public partial class Form1 : Form
     public UserControl8 uc8;
     private UserControl9 uc9;
 
+    private string supabaseUrl;
+    private string supabaseKey;
 
-    public Form1()
+    public Form1(string supabaseUrl, string supabaseKey)
     {
         InitializeComponent();
+        this.supabaseUrl = supabaseUrl;
+        this.supabaseKey = supabaseKey;
         this.Load += Form1_Load; // Load 이벤트 연결 (디자이너에서 이미 연결되어 있으면 생략 가능)
 
     }

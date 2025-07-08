@@ -87,10 +87,9 @@ namespace mes_study
                 {
                     var emp = employees[0];
                     textBox1.Text = emp.name;
-                    textBox2.Text = emp.birth?.ToString("yyyy-MM-dd") ?? "";
+                    textBox2.Text = emp.birth;
                     textBox3.Text = emp.phone;
                     textBox4.Text = emp.email;
-                    textBox4.ReadOnly = true;
                     textBox5.Text = emp.address;
                     textBox6.Text = emp.username;
                     textBox6.ReadOnly = true;
@@ -113,6 +112,28 @@ namespace mes_study
             {
                 MessageBox.Show("유효하지 않은 uuid입니다.");
                 return;
+            }
+
+            string username = textBox6.Text.Trim();
+
+            // **username 중복 체크**
+            using (var checkClient = new HttpClient())
+            {
+                checkClient.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
+                checkClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", supabaseKey);
+                checkClient.DefaultRequestHeaders.Add("apikey", supabaseKey);
+                checkClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // 현재 uuid가 아닌, 동일 username이 있으면 중복!
+                var checkResponse = await checkClient.GetAsync($"employees?username=eq.{username}&user_id=neq.{selectedUuid}");
+                var checkJson = await checkResponse.Content.ReadAsStringAsync();
+                var exists = JsonConvert.DeserializeObject<List<MaterialUser>>(checkJson);
+
+                if (exists.Count > 0)
+                {
+                    MessageBox.Show("이미 사용중인 아이디(username)입니다.");
+                    return;
+                }
             }
 
             // 1. employees 정보 수정

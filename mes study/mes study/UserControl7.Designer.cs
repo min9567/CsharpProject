@@ -56,6 +56,7 @@
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(142, 23);
             textBox2.TabIndex = 5;
+            textBox2.KeyPress += textBox2_KeyPress;
             // 
             // textBox1
             // 
@@ -112,6 +113,8 @@
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(142, 23);
             textBox3.TabIndex = 6;
+            textBox3.TextChanged += textBox3_TextChanged;
+            textBox3.KeyPress += textBox3_KeyPress;
             // 
             // label4
             // 
@@ -139,6 +142,7 @@
             textBox6.Name = "textBox6";
             textBox6.Size = new Size(142, 23);
             textBox6.TabIndex = 14;
+            textBox6.KeyPress += textBox6_KeyPress;
             // 
             // label6
             // 
@@ -154,8 +158,10 @@
             // 
             textBox7.Location = new Point(345, 126);
             textBox7.Name = "textBox7";
+            textBox7.PasswordChar = '●';
             textBox7.Size = new Size(142, 23);
             textBox7.TabIndex = 16;
+            textBox7.KeyPress += textBox7_KeyPress;
             // 
             // label7
             // 
@@ -173,6 +179,7 @@
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(142, 23);
             textBox4.TabIndex = 8;
+            textBox4.KeyPress += textBox4_KeyPress;
             // 
             // label8
             // 

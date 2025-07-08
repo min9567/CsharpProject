@@ -36,17 +36,17 @@
             columnHeader4 = new ColumnHeader();
             columnHeader5 = new ColumnHeader();
             columnHeader6 = new ColumnHeader();
-            columnHeader7 = new ColumnHeader();
             label1 = new Label();
             button2 = new Button();
             button1 = new Button();
+            button3 = new Button();
             SuspendLayout();
             // 
             // listView1
             // 
             listView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             listView1.CheckBoxes = true;
-            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader0, columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeader5, columnHeader6, columnHeader7 });
+            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader0, columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeader5, columnHeader6 });
             listView1.Location = new Point(32, 63);
             listView1.Name = "listView1";
             listView1.Size = new Size(648, 307);
@@ -69,37 +69,31 @@
             // 
             columnHeader2.Text = "아이디";
             columnHeader2.TextAlign = HorizontalAlignment.Center;
-            columnHeader2.Width = 90;
+            columnHeader2.Width = 100;
             // 
             // columnHeader3
             // 
             columnHeader3.Text = "생년월일";
             columnHeader3.TextAlign = HorizontalAlignment.Center;
-            columnHeader3.Width = 80;
+            columnHeader3.Width = 84;
             // 
             // columnHeader4
             // 
             columnHeader4.Text = "연락처";
             columnHeader4.TextAlign = HorizontalAlignment.Center;
-            columnHeader4.Width = 100;
+            columnHeader4.Width = 120;
             // 
             // columnHeader5
             // 
             columnHeader5.Text = "부서";
             columnHeader5.TextAlign = HorizontalAlignment.Center;
-            columnHeader5.Width = 80;
+            columnHeader5.Width = 115;
             // 
             // columnHeader6
             // 
             columnHeader6.Text = "등록일";
             columnHeader6.TextAlign = HorizontalAlignment.Center;
             columnHeader6.Width = 130;
-            // 
-            // columnHeader7
-            // 
-            columnHeader7.Text = "수정";
-            columnHeader7.TextAlign = HorizontalAlignment.Center;
-            columnHeader7.Width = 69;
             // 
             // label1
             // 
@@ -132,16 +126,29 @@
             button1.Text = "상세보기";
             button1.UseVisualStyleBackColor = true;
             // 
+            // button3
+            // 
+            button3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button3.Location = new Point(411, 17);
+            button3.Name = "button3";
+            button3.Size = new Size(105, 28);
+            button3.TabIndex = 10;
+            button3.Text = "비밀번호 초기화";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // UserControl8
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(listView1);
             Controls.Add(label1);
             Name = "UserControl8";
             Size = new Size(706, 389);
+            Load += UserControl8_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -156,9 +163,9 @@
         private ColumnHeader columnHeader4;
         private ColumnHeader columnHeader5;
         private ColumnHeader columnHeader6;
-        private ColumnHeader columnHeader7;
         private Label label1;
         private Button button2;
         private Button button1;
+        private Button button3;
     }
 }
