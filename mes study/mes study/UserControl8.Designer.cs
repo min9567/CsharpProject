@@ -40,6 +40,7 @@
             button2 = new Button();
             button1 = new Button();
             button3 = new Button();
+            button4 = new Button();
             SuspendLayout();
             // 
             // listView1
@@ -99,7 +100,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("맑은 고딕", 12F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            label1.Location = new Point(26, 19);
+            label1.Location = new Point(22, 21);
             label1.Name = "label1";
             label1.Size = new Size(80, 21);
             label1.TabIndex = 5;
@@ -108,7 +109,7 @@
             // button2
             // 
             button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button2.Location = new Point(522, 17);
+            button2.Location = new Point(440, 19);
             button2.Name = "button2";
             button2.Size = new Size(76, 28);
             button2.TabIndex = 9;
@@ -119,17 +120,18 @@
             // button1
             // 
             button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.Location = new Point(604, 17);
+            button1.Location = new Point(522, 19);
             button1.Name = "button1";
             button1.Size = new Size(76, 28);
             button1.TabIndex = 8;
             button1.Text = "상세보기";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // button3
             // 
             button3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button3.Location = new Point(411, 17);
+            button3.Location = new Point(329, 19);
             button3.Name = "button3";
             button3.Size = new Size(105, 28);
             button3.TabIndex = 10;
@@ -137,10 +139,22 @@
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
             // 
+            // button4
+            // 
+            button4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            button4.Location = new Point(604, 19);
+            button4.Name = "button4";
+            button4.Size = new Size(76, 28);
+            button4.TabIndex = 11;
+            button4.Text = " 직원등록";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // UserControl8
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
@@ -167,5 +181,6 @@
         private Button button2;
         private Button button1;
         private Button button3;
+        private Button button4;
     }
 }

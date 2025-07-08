@@ -48,6 +48,7 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
+            button2 = new Button();
             SuspendLayout();
             // 
             // comboBox1
@@ -227,10 +228,23 @@
             label1.TabIndex = 21;
             label1.Text = "직원 수정";
             // 
+            // button2
+            // 
+            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button2.Font = new Font("맑은 고딕", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            button2.Location = new Point(517, 331);
+            button2.Name = "button2";
+            button2.Size = new Size(81, 37);
+            button2.TabIndex = 41;
+            button2.Text = "취소";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // UserControl9
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(button2);
             Controls.Add(comboBox1);
             Controls.Add(textBox8);
             Controls.Add(label10);
@@ -253,6 +267,7 @@
             Controls.Add(label1);
             Name = "UserControl9";
             Size = new Size(706, 389);
+            Load += UserControl9_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -279,5 +294,6 @@
         private Label label3;
         private Label label2;
         private Label label1;
+        private Button button2;
     }
 }

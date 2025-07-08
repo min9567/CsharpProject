@@ -21,6 +21,9 @@ namespace mes_study
         {
             Env.Load(".env.txt");
             InitializeComponent();
+
+           textBox1.Text = "test";
+           textBox2.Text = "111111";
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
@@ -39,8 +42,6 @@ namespace mes_study
                 e.Handled = true;
             }
         }
-
-
 
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -120,6 +121,8 @@ namespace mes_study
 
                         return; // 이하 로그인 로직 중단
                     }
+
+                    SessionInfo.UserUuid = emp.user_id;
 
                     this.SupabaseUrl = supabaseUrl;
                     this.SupabaseKey = supabaseKey;

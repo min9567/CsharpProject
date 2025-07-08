@@ -82,7 +82,7 @@
             button1.Location = new Point(212, 129);
             button1.Name = "button1";
             button1.Size = new Size(93, 32);
-            button1.TabIndex = 4;
+            button1.TabIndex = 5;
             button1.Text = "로그인";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
@@ -93,7 +93,7 @@
             button2.Location = new Point(101, 129);
             button2.Name = "button2";
             button2.Size = new Size(93, 32);
-            button2.TabIndex = 5;
+            button2.TabIndex = 4;
             button2.Text = "취소";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
@@ -114,6 +114,7 @@
             // 
             // LoginForm
             // 
+            AcceptButton = button1;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(380, 213);

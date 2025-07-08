@@ -14,6 +14,7 @@ namespace mes_study
         // supabase 필드 선언
         private Supabase.Client supabase;
         public event EventHandler success;
+        public event EventHandler canceled;
 
         private string supabaseUrl;
         private string supabaseKey;
@@ -103,5 +104,9 @@ namespace mes_study
 
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            canceled?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

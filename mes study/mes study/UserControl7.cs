@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
@@ -20,9 +22,49 @@ namespace mes_study
     public partial class UserControl7 : UserControl
     {
         public event EventHandler success;
+        public event EventHandler canceled;
 
         private string supabaseUrl;
         private string supabaseKey;
+
+        public void FocusTextBox()
+        {
+            textBox1.Focus();
+        }
+        private async void UserControl7_Load(object sender, EventArgs e)
+        {
+            await LoadDepartmentsAsync();
+            // 최초 진입 시 플레이스홀더 표시
+            SetTextBox2Placeholder();
+            // 이벤트 연결
+            textBox2.Enter += TextBox2_Enter;
+            textBox2.Leave += TextBox2_Leave;
+            textBox2.MaxLength = 6;
+        }
+
+        private void SetTextBox2Placeholder()
+        {
+            if (string.IsNullOrWhiteSpace(textBox2.Text))
+            {
+                textBox2.Text = "ex) 990901";
+                textBox2.ForeColor = Color.Gray;
+            }
+        }
+
+        private void TextBox2_Enter(object sender, EventArgs e)
+        {
+            if (textBox2.Text == "ex) 990901")
+            {
+                textBox2.Text = "";
+                textBox2.ForeColor = Color.Black;
+            }
+        }
+
+        // Leave 이벤트
+        private void TextBox2_Leave(object sender, EventArgs e)
+        {
+            SetTextBox2Placeholder();
+        }
 
         public void ClearInputs()
         {
@@ -153,11 +195,34 @@ namespace mes_study
             string name = textBox1.Text.Trim();
             string birth = textBox2.Text.Trim();       // Date 변환 필요시 별도 처리
             string phone = textBox3.Text.Trim();
+            string email = textBox4.Text.Trim();
             string address = textBox5.Text.Trim();
             string username = textBox6.Text.Trim();
-            string memo = textBox8.Text.Trim();
-            string email = textBox4.Text.Trim();
             string password = textBox7.Text.Trim();
+            string memo = textBox8.Text.Trim();
+            var selectedDept = comboBox1.SelectedItem?.ToString();
+
+            // 1. 6자리 숫자인지 체크
+            if (!Regex.IsMatch(birth, @"^\d{6}$"))
+            {
+                MessageBox.Show("생년월일은 6자리 숫자로 입력하세요. (예: 990901)");
+                textBox2.Focus();
+                return;
+            }
+
+            bool isValid = DateTime.TryParseExact(
+            birth,
+            "yyMMdd",
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.None,
+            out DateTime parsedBirth);
+
+            if (!isValid)
+            {
+                MessageBox.Show("유효하지 않은 날짜입니다.");
+                textBox2.Focus();
+                return;
+            }
 
             if (!IsValidEmail(email))
             {
@@ -168,9 +233,17 @@ namespace mes_study
             if (string.IsNullOrWhiteSpace(password) || password.Length < 6)
             {
                 MessageBox.Show("비밀번호는 6자 이상이어야 합니다.");
+                textBox7.Focus();
                 return;
             }
-            
+
+            if (string.IsNullOrWhiteSpace(selectedDept))
+            {
+                MessageBox.Show("부서를 선택하세요.");
+                comboBox1.Focus();
+                return;
+            }
+
             // employees 테이블에 저장할 데이터
             var empData = new
             {
@@ -181,7 +254,8 @@ namespace mes_study
                 address = textBox5.Text,
                 username = textBox6.Text,
                 password = textBox7.Text,
-                memo = textBox8.Text
+                memo = textBox8.Text,
+                department = selectedDept
             };
 
             // username 중복 체크
@@ -222,12 +296,47 @@ namespace mes_study
                 {
                     MessageBox.Show("직원 등록 성공!");
                     ClearInputs(); // ← 등록 성공시 입력값 초기화
+                    success?.Invoke(this, EventArgs.Empty);
                 }
                 else
                 {
                     MessageBox.Show("직원정보 저장 실패: " + await empResponse.Content.ReadAsStringAsync());
                 }
             }
+        }
+        private async Task LoadDepartmentsAsync()
+        {
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", supabaseKey);
+            client.DefaultRequestHeaders.Add("apikey", supabaseKey);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // departments 목록 조회
+            var response = await client.GetAsync("departments?select=name,id"); // id는 옵션
+            if (response.IsSuccessStatusCode)
+
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var departments = JsonConvert.DeserializeObject<List<DepartmentsList>>(json);
+
+                comboBox1.Items.Clear();
+                foreach (var dept in departments)
+                {
+                    comboBox1.Items.Add(dept.name);
+                    // 또는 id까지 쓰고 싶으면 comboBox1.Items.Add($"{dept.id} - {dept.name}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("부서 목록 불러오기 실패: " + await response.Content.ReadAsStringAsync());
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            canceled?.Invoke(this, EventArgs.Empty);
         }
     }
 }

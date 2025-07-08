@@ -24,6 +24,7 @@ namespace mes_study
 
         public event EventHandler button1Clicked;
         public event EventHandler button2Clicked;
+        public event EventHandler button4Clicked;
 
         public UserControl8(Supabase.Client supabase)
         {
@@ -78,7 +79,7 @@ namespace mes_study
                     item.SubItems.Add(emp.username);
                     item.SubItems.Add(emp.birth);
                     item.SubItems.Add(emp.phone);
-                    item.SubItems.Add("");
+                    item.SubItems.Add(emp.department);
                     item.SubItems.Add(emp.created_at?.ToString("yyyy-MM-dd") ?? "");
                     item.Tag = emp.user_id;
                     listView1.Items.Add(item);
@@ -154,5 +155,28 @@ namespace mes_study
             MessageBox.Show($"비밀번호 초기화 완료\n성공: {successCount}개, 실패: {failCount}개");
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (listView1.CheckedItems.Count != 1)
+            {
+                MessageBox.Show("상세조회할 항목을 하나만 선택하세요.");
+                return;
+            }
+            string uuid = listView1.CheckedItems[0].Tag?.ToString();
+
+            // 예시: usercontrol11을 띄우는 코드
+            // 부모 컨트롤의 패널이나 폼에 붙이기 (아래는 참고용)
+            var parent = this.Parent;
+            var userControl11 = new UserControl11(supabase, uuid);
+            userControl11.Dock = DockStyle.Fill;
+
+            parent.Controls.Clear();
+            parent.Controls.Add(userControl11);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            button4Clicked?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

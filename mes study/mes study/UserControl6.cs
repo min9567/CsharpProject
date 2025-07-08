@@ -20,6 +20,9 @@ namespace mes_study
     {
         private Supabase.Client supabase;
 
+        public event EventHandler success;
+        public event EventHandler canceled;
+
         private string supabaseUrl;
         private string supabaseKey;
 
@@ -28,6 +31,12 @@ namespace mes_study
         {
             selectedUuid = uuid;
         }
+
+        public void ClearInputs()
+        {
+            textBox1.Text = "";
+        }
+
         public UserControl6(Supabase.Client supabase)
         {
             InitializeComponent();
@@ -71,7 +80,7 @@ namespace mes_study
                 if (materials.Count > 0)
                 {
                     var m = materials[0];
-                    textBox3.Text = m.memo ?? "";  // memo값 textbox3에 미리 세팅
+                    textBox1.Text = m.memo ?? "";  // memo값 textbox3에 미리 세팅
                 }
                 else
                 {
@@ -92,7 +101,7 @@ namespace mes_study
                 return;
             }
 
-            string newMemo = textBox3.Text.Trim();
+            string newMemo = textBox1.Text.Trim();
 
             using var client = new HttpClient();
             client.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
@@ -112,12 +121,18 @@ namespace mes_study
             if (response.IsSuccessStatusCode)
             {
                 MessageBox.Show("비고가 성공적으로 수정되었습니다.");
-                textBox3.Text = "";
+                textBox1.Text = "";
+                success?.Invoke(this, EventArgs.Empty);
             }
             else
             {
                 MessageBox.Show("비고 수정 실패: " + await response.Content.ReadAsStringAsync());
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            canceled?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace mes_study
     public partial class UserControl3 : UserControl
     {
         public event EventHandler success;
+        public event EventHandler canceled;
 
         private string supabaseUrl;
         private string supabaseKey;
@@ -46,6 +47,29 @@ namespace mes_study
         private async void UserControl3_Load(object sender, EventArgs e)
         {
             await LoadMaterialNamesAsync();
+            await GetRegistrantName();
+        }
+
+        private async Task<string> GetRegistrantName()
+        {
+            var uuid = SessionInfo.UserUuid;  // 로그인된 uuid 가져옴
+            if (string.IsNullOrEmpty(uuid)) return "";
+
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", supabaseKey);
+            client.DefaultRequestHeaders.Add("apikey", supabaseKey);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var response = await client.GetAsync($"employees?user_id=eq.{uuid}");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var list = JsonConvert.DeserializeObject<List<MaterialUser>>(json);
+                if (list.Count > 0)
+                    return list[0].name;
+            }
+            return "";
         }
 
         public async Task LoadMaterialNamesAsync()
@@ -137,8 +161,8 @@ namespace mes_study
             // 4. qty 업데이트 (PATCH)
             var patch = new[]
             {
-        new { qty = newQty, receivingmemo = memo }
-    };
+            new { qty = newQty, receivingmemo = memo }
+            };
             var content = new StringContent(JsonConvert.SerializeObject(patch), Encoding.UTF8, "application/json");
             // Patch 사용시 반드시 'Prefer: return=representation' 헤더 필요
             client.DefaultRequestHeaders.Remove("Prefer");
@@ -149,11 +173,14 @@ namespace mes_study
             if (updateResponse.IsSuccessStatusCode)
             {
                 MessageBox.Show($"수량이 {material.qty} → {newQty}로 변경되었습니다.");
+                MessageBox.Show($"입고 등록 완료되었습니다.");
                 textBox2.Text = "";
                 textBox3.Text = "";
                 comboBox1.SelectedIndex = -1;
                 success?.Invoke(this, EventArgs.Empty);
                 FocusToComboBox();
+
+                string registrantName = await GetRegistrantName();
 
                 var materialListData = new
                 {
@@ -162,7 +189,7 @@ namespace mes_study
                     qty_in = addQty,                       // 입고수량 (추가된 값)
                     qty_out = 0,                           // 출고시에는 0, 입고이므로
                     qty_result = newQty,                   // 최종 수량
-                    registrant = "",              // 로그인 사용자 등에서 가져와서 입력
+                    registrant = registrantName,              // 로그인 사용자 등에서 가져와서 입력
                     memo = memo                            // 메모
                 };
                 var materialListContent = new StringContent(JsonConvert.SerializeObject(materialListData), Encoding.UTF8, "application/json");
@@ -178,9 +205,15 @@ namespace mes_study
                 MessageBox.Show("수량 변경 실패: " + await updateResponse.Content.ReadAsStringAsync());
             }
         }
+
         private void UserControl3_Load_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            canceled?.Invoke(this, EventArgs.Empty);
         }
     }
 }

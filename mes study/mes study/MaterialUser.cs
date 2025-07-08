@@ -16,6 +16,7 @@ namespace mes_study
         public string birth { get; set; }
         public string phone { get; set; }
         public string email { get; set; }
+        public string department { get; set; }
         public string address { get; set; }
         public string memo { get; set; }
         public DateTime? created_at { get; set; }

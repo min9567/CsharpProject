@@ -48,6 +48,7 @@
             label10 = new Label();
             textBox8 = new TextBox();
             comboBox1 = new ComboBox();
+            button2 = new Button();
             SuspendLayout();
             // 
             // textBox2
@@ -72,7 +73,7 @@
             button1.Location = new Point(604, 331);
             button1.Name = "button1";
             button1.Size = new Size(81, 37);
-            button1.TabIndex = 19;
+            button1.TabIndex = 20;
             button1.Text = "등록";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
@@ -112,7 +113,7 @@
             textBox3.Location = new Point(93, 166);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(142, 23);
-            textBox3.TabIndex = 6;
+            textBox3.TabIndex = 7;
             textBox3.TextChanged += textBox3_TextChanged;
             textBox3.KeyPress += textBox3_KeyPress;
             // 
@@ -123,7 +124,7 @@
             label4.Location = new Point(40, 168);
             label4.Name = "label4";
             label4.Size = new Size(47, 17);
-            label4.TabIndex = 5;
+            label4.TabIndex = 6;
             label4.Text = "연락처";
             // 
             // label5
@@ -133,7 +134,7 @@
             label5.Location = new Point(53, 248);
             label5.Name = "label5";
             label5.Size = new Size(34, 17);
-            label5.TabIndex = 9;
+            label5.TabIndex = 10;
             label5.Text = "부서";
             // 
             // textBox6
@@ -141,7 +142,7 @@
             textBox6.Location = new Point(345, 86);
             textBox6.Name = "textBox6";
             textBox6.Size = new Size(142, 23);
-            textBox6.TabIndex = 14;
+            textBox6.TabIndex = 15;
             textBox6.KeyPress += textBox6_KeyPress;
             // 
             // label6
@@ -151,7 +152,7 @@
             label6.Location = new Point(292, 88);
             label6.Name = "label6";
             label6.Size = new Size(47, 17);
-            label6.TabIndex = 13;
+            label6.TabIndex = 14;
             label6.Text = "아이디";
             // 
             // textBox7
@@ -160,7 +161,7 @@
             textBox7.Name = "textBox7";
             textBox7.PasswordChar = '●';
             textBox7.Size = new Size(142, 23);
-            textBox7.TabIndex = 16;
+            textBox7.TabIndex = 17;
             textBox7.KeyPress += textBox7_KeyPress;
             // 
             // label7
@@ -170,7 +171,7 @@
             label7.Location = new Point(279, 128);
             label7.Name = "label7";
             label7.Size = new Size(60, 17);
-            label7.TabIndex = 15;
+            label7.TabIndex = 16;
             label7.Text = "비밀번호";
             // 
             // textBox4
@@ -178,7 +179,7 @@
             textBox4.Location = new Point(93, 206);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(142, 23);
-            textBox4.TabIndex = 8;
+            textBox4.TabIndex = 9;
             textBox4.KeyPress += textBox4_KeyPress;
             // 
             // label8
@@ -188,7 +189,7 @@
             label8.Location = new Point(40, 208);
             label8.Name = "label8";
             label8.Size = new Size(47, 17);
-            label8.TabIndex = 7;
+            label8.TabIndex = 8;
             label8.Text = "이메일";
             // 
             // textBox5
@@ -196,7 +197,7 @@
             textBox5.Location = new Point(93, 286);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(394, 23);
-            textBox5.TabIndex = 12;
+            textBox5.TabIndex = 13;
             // 
             // label9
             // 
@@ -205,7 +206,7 @@
             label9.Location = new Point(53, 288);
             label9.Name = "label9";
             label9.Size = new Size(34, 17);
-            label9.TabIndex = 11;
+            label9.TabIndex = 12;
             label9.Text = "주소";
             // 
             // label10
@@ -215,7 +216,7 @@
             label10.Location = new Point(305, 168);
             label10.Name = "label10";
             label10.Size = new Size(34, 17);
-            label10.TabIndex = 17;
+            label10.TabIndex = 18;
             label10.Text = "메모";
             // 
             // textBox8
@@ -224,7 +225,7 @@
             textBox8.Multiline = true;
             textBox8.Name = "textBox8";
             textBox8.Size = new Size(142, 103);
-            textBox8.TabIndex = 18;
+            textBox8.TabIndex = 19;
             // 
             // comboBox1
             // 
@@ -232,12 +233,25 @@
             comboBox1.Location = new Point(93, 246);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(142, 23);
-            comboBox1.TabIndex = 20;
+            comboBox1.TabIndex = 11;
+            // 
+            // button2
+            // 
+            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button2.Font = new Font("맑은 고딕", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            button2.Location = new Point(517, 331);
+            button2.Name = "button2";
+            button2.Size = new Size(81, 37);
+            button2.TabIndex = 21;
+            button2.Text = "취소";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // UserControl7
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(button2);
             Controls.Add(comboBox1);
             Controls.Add(textBox8);
             Controls.Add(label10);
@@ -260,6 +274,7 @@
             Controls.Add(label1);
             Name = "UserControl7";
             Size = new Size(706, 389);
+            Load += UserControl7_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -286,5 +301,6 @@
         private Label label10;
         private TextBox textBox8;
         private ComboBox comboBox1;
+        private Button button2;
     }
 }

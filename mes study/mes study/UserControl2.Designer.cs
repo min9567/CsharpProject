@@ -36,6 +36,7 @@
             textBox2 = new TextBox();
             label4 = new Label();
             textBox3 = new TextBox();
+            button2 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -112,10 +113,23 @@
             textBox3.Size = new Size(435, 124);
             textBox3.TabIndex = 7;
             // 
+            // button2
+            // 
+            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button2.Font = new Font("맑은 고딕", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            button2.Location = new Point(519, 334);
+            button2.Name = "button2";
+            button2.Size = new Size(81, 37);
+            button2.TabIndex = 8;
+            button2.Text = "취소";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // UserControl2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(button2);
             Controls.Add(textBox3);
             Controls.Add(label4);
             Controls.Add(textBox2);
@@ -140,5 +154,6 @@
         private TextBox textBox2;
         private Label label4;
         private TextBox textBox3;
+        private Button button2;
     }
 }

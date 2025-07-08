@@ -26,6 +26,7 @@ namespace mes_study
         private string selectedUuid;
 
         public event EventHandler EditCompleted;
+        public event EventHandler canceled;
 
         public void SetUuid(string uuid)
         {
@@ -46,6 +47,7 @@ namespace mes_study
             textBox4.Text = "";
             textBox5.Text = "";
             textBox6.Text = "";
+            textBox7.Text = "";
             textBox8.Text = "";
         }
 
@@ -64,6 +66,7 @@ namespace mes_study
 
         private async void UserControl9_Load(object sender, EventArgs e)
         {
+            await LoadDepartmentsAsync();
             await LoadEmployeeDataAsync();
         }
 
@@ -172,6 +175,40 @@ namespace mes_study
             }
             MessageBox.Show("수정 완료!");
             EditCompleted?.Invoke(this, EventArgs.Empty);
+        }
+
+        private async Task LoadDepartmentsAsync()
+        {
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri($"{supabaseUrl}/rest/v1/");
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", supabaseKey);
+            client.DefaultRequestHeaders.Add("apikey", supabaseKey);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // departments 목록 조회
+            var response = await client.GetAsync("departments?select=name,id"); // id는 옵션
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var departments = JsonConvert.DeserializeObject<List<DepartmentsList>>(json);
+
+                comboBox1.Items.Clear();
+                foreach (var dept in departments)
+                {
+                    comboBox1.Items.Add(dept.name);
+                    // 또는 id까지 쓰고 싶으면 comboBox1.Items.Add($"{dept.id} - {dept.name}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("부서 목록 불러오기 실패: " + await response.Content.ReadAsStringAsync());
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            canceled?.Invoke(this, EventArgs.Empty);
         }
     }
 }

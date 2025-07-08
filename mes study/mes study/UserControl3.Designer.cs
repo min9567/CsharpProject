@@ -36,8 +36,7 @@
             button1 = new Button();
             label4 = new Label();
             textBox3 = new TextBox();
-            label5 = new Label();
-            comboBox2 = new ComboBox();
+            button2 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -101,7 +100,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("맑은 고딕", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            label4.Location = new Point(29, 225);
+            label4.Location = new Point(29, 181);
             label4.Name = "label4";
             label4.Size = new Size(34, 17);
             label4.TabIndex = 7;
@@ -109,36 +108,29 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(69, 225);
+            textBox3.Location = new Point(69, 179);
             textBox3.Multiline = true;
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(435, 91);
             textBox3.TabIndex = 8;
             // 
-            // label5
+            // button2
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("맑은 고딕", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 129);
-            label5.Location = new Point(16, 181);
-            label5.Name = "label5";
-            label5.Size = new Size(47, 17);
-            label5.TabIndex = 10;
-            label5.Text = "등록자";
-            // 
-            // comboBox2
-            // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(69, 179);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(142, 23);
-            comboBox2.TabIndex = 11;
+            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button2.Font = new Font("맑은 고딕", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 129);
+            button2.Location = new Point(519, 334);
+            button2.Name = "button2";
+            button2.Size = new Size(81, 37);
+            button2.TabIndex = 10;
+            button2.Text = "취소";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // UserControl3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(comboBox2);
-            Controls.Add(label5);
+            Controls.Add(button2);
             Controls.Add(textBox3);
             Controls.Add(label4);
             Controls.Add(button1);
@@ -164,7 +156,6 @@
         private Button button1;
         private Label label4;
         private TextBox textBox3;
-        private Label label5;
-        private ComboBox comboBox2;
+        private Button button2;
     }
 }

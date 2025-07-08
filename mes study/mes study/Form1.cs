@@ -14,9 +14,13 @@ public partial class Form1 : Form
     private UserControl7 uc7;
     public UserControl8 uc8;
     private UserControl9 uc9;
+    private UserControl12 uc12;
+    private UserControl13 uc13;
 
     private string supabaseUrl;
     private string supabaseKey;
+
+    private Stack<UserControl> historyStack = new Stack<UserControl>();
 
     public Form1(string supabaseUrl, string supabaseKey)
     {
@@ -46,6 +50,8 @@ public partial class Form1 : Form
         uc7 = new UserControl7(supabase);
         uc8 = new UserControl8(supabase);
         uc9 = new UserControl9(supabase);
+        uc12 = new UserControl12(supabase);
+        uc13 = new UserControl13(supabase);
 
         uc1.button1Clicked += Uc1_button1Clicked;
         uc1.button3Clicked += Uc1_button3Clicked;
@@ -53,18 +59,76 @@ public partial class Form1 : Form
         uc2.success += RefreshUc1;
         uc3.success += RefreshUc1;
         uc4.success += RefreshUc1;
+        uc6.success += RefreshUc1;
+        uc7.success += RefreshUc8;
+        uc12.success += RefreshUc13;
         uc8.button2Clicked += Uc8_button2Clicked;
+        uc8.button4Clicked += Uc8_button4Clicked;
         uc9.EditCompleted += Uc9_EditCompleted;
+        uc13.button2Clicked += Uc13_button2Clicked;
+
+        uc2.canceled += Uc1_Canceled;
+        uc3.canceled += Uc1_Canceled;
+        uc4.canceled += Uc1_Canceled;
+        uc6.canceled += Uc1_Canceled;
+        uc7.canceled += Uc8_Canceled;
+        uc9.canceled += Uc8_Canceled;
+        uc12.canceled += Uc13_Canceled;
     }
 
     private async void RefreshUc1(object sender, EventArgs e)
     {
-        await uc1.LoadMaterialsAsync();
+        await uc1.LoadMaterialsAsync();  // 목록 새로고침
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc1);
         uc1.Dock = DockStyle.Fill;
+    }
+
+    private void Uc1_Canceled(object sender, EventArgs e)
+    {
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc1);
+        uc1.Dock = DockStyle.Fill;
+        uc1.LoadMaterialsAsync(); // 목록 새로고침도 필요하면
+    }
+
+    private async void RefreshUc8(object sender, EventArgs e)
+    {
+        await uc8.LoadEmployeesAsync();  // 목록 새로고침
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc8);
+        uc8.Dock = DockStyle.Fill;
+    }
+
+    private void Uc8_Canceled(object sender, EventArgs e)
+    {
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc8);
+        uc8.Dock = DockStyle.Fill;
+        uc8.LoadEmployeesAsync(); // 목록 새로고침도 필요하면
+    }
+
+    private async void RefreshUc13(object sender, EventArgs e)
+    {
+        await uc13.LoaddepartmentsAsync();  // 목록 새로고침
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc13);
+        uc13.Dock = DockStyle.Fill;
+    }
+
+    private void Uc13_Canceled(object sender, EventArgs e)
+    {
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc13);
+        uc13.Dock = DockStyle.Fill;
+        uc13.LoaddepartmentsAsync(); // 목록 새로고침도 필요하면
     }
 
     private void Uc1_button1Clicked(object sender, EventArgs e)
     {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
+
         uc2.ClearInputs();
         panel1.Controls.Clear();
         panel1.Controls.Add(uc2);
@@ -74,6 +138,8 @@ public partial class Form1 : Form
 
     private void Uc1_button3Clicked(object sender, EventArgs e)
     {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
 
         string checkedUuid = sender as string; // sender가 uuid
 
@@ -88,6 +154,8 @@ public partial class Form1 : Form
 
     private void Uc1_button4Clicked(object sender, EventArgs e)
     {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
 
         string checkedUuid = sender as string; // sender가 uuid
 
@@ -103,6 +171,9 @@ public partial class Form1 : Form
 
     private void 내역ToolStripMenuItem_Click(object sender, EventArgs e)
     {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
+
         uc1.LoadMaterialsAsync();
         panel1.Controls.Clear();
         panel1.Controls.Add(uc1);  // uc1이 UserControl1
@@ -111,6 +182,10 @@ public partial class Form1 : Form
 
     private void 입고ToolStripMenuItem_Click(object sender, EventArgs e)
     {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
+
+        var newUc3 = new UserControl3(supabase);
         uc3.LoadMaterialNamesAsync();
         uc3.ClearInputs();
         panel1.Controls.Clear();
@@ -121,6 +196,9 @@ public partial class Form1 : Form
 
     private void 출고ToolStripMenuItem_Click(object sender, EventArgs e)
     {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
+
         uc4.LoadMaterialNamesAsync();
         uc4.ClearInputs();
         panel1.Controls.Clear();
@@ -131,6 +209,9 @@ public partial class Form1 : Form
 
     private void 직원등록ToolStripMenuItem_Click(object sender, EventArgs e)
     {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
+
         uc7.ClearInputs();
         panel1.Controls.Clear();
         panel1.Controls.Add(uc7);
@@ -140,6 +221,9 @@ public partial class Form1 : Form
 
     private void 직원목록ToolStripMenuItem_Click(object sender, EventArgs e)
     {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
+
         uc8.LoadEmployeesAsync();
         panel1.Controls.Clear();
         panel1.Controls.Add(uc8);
@@ -148,6 +232,9 @@ public partial class Form1 : Form
 
     private void Uc8_button2Clicked(object sender, EventArgs e)
     {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
+
         string uuid = sender as string;
 
         if (!string.IsNullOrEmpty(uuid))
@@ -160,6 +247,18 @@ public partial class Form1 : Form
         uc9.LoadEmployeeDataAsync();
     }
 
+    private void Uc8_button4Clicked(object sender, EventArgs e)
+    {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
+
+        uc7.ClearInputs();
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc7);
+        uc7.Dock = DockStyle.Fill;
+        uc7.FocusTextBox();
+    }
+
     private async void Uc9_EditCompleted(object sender, EventArgs e)
     {
         await uc8.LoadEmployeesAsync();
@@ -167,6 +266,75 @@ public partial class Form1 : Form
         panel1.Controls.Add(uc8);
         uc8.Dock = DockStyle.Fill;
     }
+
+    private void 부서등록ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
+
+        uc12.ClearInputs();
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc12);
+        uc12.Dock = DockStyle.Fill;
+        uc12.FocusTextBox();
+    }
+
+    private async void 부서목록ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
+
+        await uc13.LoaddepartmentsAsync();
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc13);
+        uc13.Dock = DockStyle.Fill;
+    }
+
+    private void Uc13_button2Clicked(object sender, EventArgs e)
+    {
+        if (panel1.Controls.Count > 0)
+            historyStack.Push(panel1.Controls[0] as UserControl);
+
+        uc12.ClearInputs();
+        panel1.Controls.Clear();
+        panel1.Controls.Add(uc12);
+        uc12.Dock = DockStyle.Fill;
+        uc12.FocusTextBox();
+    }
+
+    private void 로그아웃ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        SessionInfo.UserUuid = null;
+        this.DialogResult = DialogResult.Retry; // <- 중요!
+        this.Close();
+    }
+
+    private async void btnBack_Click(object sender, EventArgs e)
+    {
+        if (historyStack.Count > 0)
+        {
+            var prevControl = historyStack.Pop();
+            panel1.Controls.Clear();
+            panel1.Controls.Add(prevControl);
+
+            if (prevControl is UserControl1 listUc)
+                await listUc.LoadMaterialsAsync();
+            else if (prevControl is UserControl8 empListUc)
+                await empListUc.LoadEmployeesAsync();
+            else if (prevControl is UserControl13 deptListUc)
+                await deptListUc.LoaddepartmentsAsync();
+
+            if (prevControl is UserControl2 uc2) uc2.ClearInputs();
+            if (prevControl is UserControl3 uc3) uc3.ClearInputs();
+            if (prevControl is UserControl4 uc4) uc4.ClearInputs();
+            if (prevControl is UserControl6 uc6) uc6.ClearInputs();
+            if (prevControl is UserControl7 uc7) uc7.ClearInputs();
+            if (prevControl is UserControl9 uc9) uc9.ClearInputs();
+            if (prevControl is UserControl12 uc12) uc12.ClearInputs();
+        }
+    }
+
+    
 }
 
 
